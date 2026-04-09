@@ -27,3 +27,4 @@ def get_all():
     data = list(collection.find({}, {"_id": 0}))
     return data
   
+from fastapi.middleware.cors import CORSMiddleware
