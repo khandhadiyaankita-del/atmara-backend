@@ -3,7 +3,13 @@ from pymongo import MongoClient
 import os
 
 app = FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 MONGO_URL = os.getenv("MONGO_URL")
 
 client = MongoClient(MONGO_URL)
