@@ -20,7 +20,8 @@ app.add_middleware(
 
 MONGO_URL = os.getenv("MONGO_URL")
 
-client = MongoClient(MONGO_URL)
+# Add TLS parameters to fix SSL handshake issues
+client = MongoClient(MONGO_URL, tls=True, tlsAllowInvalidCertificates=True)
 db = client["atmara"]
 collection = db["entries"]
 
