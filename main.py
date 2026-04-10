@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 import os
+import ssl
 
 app = FastAPI()
 
@@ -20,8 +21,16 @@ app.add_middleware(
 
 MONGO_URL = os.getenv("MONGO_URL")
 
-# Add TLS parameters to fix SSL handshake issues
-client = MongoClient(MONGO_URL, tls=True, tlsAllowInvalidCertificates=True)
+client = MongoClient(
+    MONGO_URL,
+    tls=True,
+    tlsAllowInvalidCertificates=True,
+    tlsAllowInvalidHostnames=True,
+    ssl_cert_reqs=ssl.CERT_NONE,
+    serverSelectionTimeoutMS=10000,
+    connect=False,
+)
+
 db = client["atmara"]
 collection = db["entries"]
 
